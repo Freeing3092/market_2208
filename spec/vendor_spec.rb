@@ -33,5 +33,12 @@ RSpec.describe Vendor do
       vendor.stock(item2, 12)
       expect(vendor.inventory).to eq({item1 => 55, item2 => 12})
     end
+    
+    it "#potential_revenue returns the total value of vendor inventory" do
+      vendor.stock(item1, 30)
+      vendor.stock(item1, 25)
+      vendor.stock(item2, 12)
+      expect(vendor.potential_revenue).to eq(47.25)
+    end
   end
 end
