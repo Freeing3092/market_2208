@@ -176,10 +176,21 @@ RSpec.describe Market do
     expect(vendor3.check_stock(item1)).to eq(60)
     end
   end
+  
+  context 'Class method' do
+    it "#date will create an instance of Market" do
+      past_date = "20/09/2020"
+      # date = double(past_date)
+      allow(Market).to receive(:date).and_return(past_date)
+      
+      expect(market.date).to eq("20/09/2020")
+      # expect(Market.date).to eq("20/09/2022")
+    end
+  end
 end
 
 
-
+# A market will now be created with a date - whatever date the market is created on through the use of `Date.today`. The addition of a date to the market should NOT break any previous tests.  The `date` method will return a string representation of the date - 'dd/mm/yyyy'. We want you to test this in with a date that is IN THE PAST. In order to test the date method in a way that will work today, tomorrow and on any date in the future, you will need to use a stub :)
 
 
 

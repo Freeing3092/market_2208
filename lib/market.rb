@@ -1,3 +1,5 @@
+require 'date'
+
 class Market
   attr_reader :name, :vendors
   
@@ -55,15 +57,19 @@ class Market
   end
   
   def sell(item, quantity)
-    inventory_hash = total_inventory
-    return false if !inventory_hash.include?(item) || inventory_hash[item][:quantity] < quantity
-    remaining_to_sell = quantity
-    inventory_hash[item][:vendors].each do |vendor|
-      sold = [remaining_to_sell, vendor.check_stock(item)].min
-      remaining_to_sell -= sold
+    return false if !total_inventory.include?(item) || total_inventory[item][:quantity] < quantity
+    total_inventory[item][:vendors].each do |vendor|
+      sold = [quantity, vendor.check_stock(item)].min
+      quantity -= sold
       vendor.sale(item, sold)
     end
     true
+  end
+  
+  def self.date
+    current_date = Date.today.strftime("%d/%m/%Y")
+    market = Market.new(current_date)
+    Date.today.strftime("%d/%m/%Y")
   end
 end
 
