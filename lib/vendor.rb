@@ -11,7 +11,6 @@ class Vendor
   end
   
   def stock(item, quantity)
-    # require "pry"; binding.pry
     @inventory[item] += quantity
   end
   
