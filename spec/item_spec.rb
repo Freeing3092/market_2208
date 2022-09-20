@@ -11,7 +11,6 @@ RSpec.describe Item do
     end
     
     it "has readable attributes" do
-      require "pry"; binding.pry
       expect(item1.name).to eq("Peach")
       expect(item1.price).to eq(0.75)
       expect(item2.name).to eq("Tomato")
