@@ -21,4 +21,8 @@ class Vendor
     end
     total_potential_revenue
   end
+  
+  def sale(item, quantity)
+    @inventory[item] -= quantity
+  end
 end

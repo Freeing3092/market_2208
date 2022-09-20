@@ -12,6 +12,7 @@ RSpec.describe Market do
   let(:item2) {Item.new({name: 'Tomato', price: '$0.50'})}
   let(:item3) {Item.new({name: "Peach-Raspberry Nice Cream", price: "$5.30"})}
   let(:item4) {Item.new({name: "Banana Nice Cream", price: "$4.25"})}
+  let(:item5) {Item.new({name: 'Onion', price: '$0.25'})}
   
   context 'initialize' do
     it "exists" do
@@ -150,6 +151,29 @@ RSpec.describe Market do
       result = ["Banana Nice Cream", "Peach", "Peach-Raspberry Nice Cream", "Tomato"]
       
       expect(market.sorted_item_list).to eq(result)
+    end
+    
+    it "#sell takes an argement for item and quantity. False is returns if the 
+    market does not have the quantity available. If the quantity is available,
+    stock is reduced from vendors in the order they were added." do
+    vendor1.stock(item1, 35)
+    vendor1.stock(item2, 7)
+    vendor2.stock(item4, 50)
+    vendor2.stock(item3, 25)
+    vendor3.stock(item1, 65)
+    vendor3.stock(item3, 10)
+    market.add_vendor(vendor1)
+    market.add_vendor(vendor2)
+    market.add_vendor(vendor3)
+    
+    expect(market.sell(item1, 200)).to eq(false)
+    expect(market.sell(item5, 1)).to eq(false)
+    expect(market.sell(item4, 5)).to eq(true)
+    expect(vendor2.check_stock(item4)).to eq(45)
+    
+    expect(market.sell(item1, 40)).to eq(true)
+    expect(vendor1.check_stock(item1)).to eq(0)
+    expect(vendor3.check_stock(item1)).to eq(60)
     end
   end
 end

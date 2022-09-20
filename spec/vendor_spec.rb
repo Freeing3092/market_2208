@@ -40,5 +40,23 @@ RSpec.describe Vendor do
       vendor.stock(item2, 12)
       expect(vendor.potential_revenue).to eq(47.25)
     end
+    
+    it "#sale reduces quantity by amount sold" do
+      vendor.stock(item1, 30)
+      vendor.stock(item1, 25)
+      vendor.stock(item2, 12)
+      
+      vendor.sale(item1, 10)
+      expect(vendor.check_stock(item1)).to eq(45)
+    end
   end
 end
+
+
+
+
+
+
+
+
+

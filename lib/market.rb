@@ -53,6 +53,18 @@ class Market
   def sorted_item_list
     inventory_list.map {|item| item.name}.sort
   end
+  
+  def sell(item, quantity)
+    inventory_hash = total_inventory
+    return false if !inventory_hash.include?(item) || inventory_hash[item][:quantity] < quantity
+    remaining_to_sell = quantity
+    inventory_hash[item][:vendors].each do |vendor|
+      sold = [remaining_to_sell, vendor.check_stock(item)].min
+      remaining_to_sell -= sold
+      vendor.sale(item, sold)
+    end
+    true
+  end
 end
 
 
